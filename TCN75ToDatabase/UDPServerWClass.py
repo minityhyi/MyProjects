@@ -1,3 +1,5 @@
+import threading
+from queue import Queue
 class Socket:
     def __init__(self, ip_adress, socketnr):
         import socket
@@ -5,7 +7,8 @@ class Socket:
         self.server_address = (ip_adress, socketnr)
         self.server_socket.bind(self.server_address)
         print("socket class setup complete")
-        
+        self.dataQueue = Queue()
+
     def dataToJSON(self, decodedData):
         #Splits the string based on commas
         tempStrings = decodedData.split(',')
@@ -23,7 +26,7 @@ class Socket:
         }
         print(f"The tempDict is:{tempDict}")
         return tempDict
-    
+
     def sendToMySQL(self, JSON):
         import mysql.connector
         # Connect to MySQL server
@@ -67,7 +70,7 @@ class Socket:
         cursor.close()
         dbConnection.close()
 
-        
+
     def recieveNPrint(self):
         print("recieveNPrint called")
         while True:
@@ -75,16 +78,23 @@ class Socket:
             print("socket bind complete")
             decodedData = data.decode()
             print(f"Recieved message from {client} {decodedData}")
-            
-            #Calls the funktion DataToJSON. That turns the decodedData into a JSON dictonary. So it is ready for MySQL
-            JSON = udpSock.dataToJSON(decodedData)
-            
-            #Sends the JSON to a MySQL database
-            udpSock.sendToMySQL(JSON)
-                
-            
-if __name__ == "__main__":
+
+            self.dataQueue.put(decodedData)
+
+    def startRecieveThread(self):
+        thread = threading.Thread(target=self.recieveNPrint)
+        thread.start()
+
+    def getReceivedData(self):
+        # Get the decodedData from the queue
+        return self.dataQueue.get()
     
+    
+if __name__ == "__main__":
+
     udpSock = Socket("0.0.0.0", 12345)
-    udpSock.recieveNPrint()
+    udpSock.startRecieveThread()
+    decodedData = udpSock.getReceivedData()
+    JSON = udpSock.dataToJSON(decodedData)
+    udpSock.sendToMySQL(JSON)
 

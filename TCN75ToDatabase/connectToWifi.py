@@ -10,7 +10,7 @@ if not sta_if.isconnected():
 	sta_if.active(True)
 	try:
 		sta_if.config(dhcp_hostname="My ProS3")
-		sta_if.connect("NOKIA-BC41", "zwS3QNWGbM")
+		sta_if.connect("OnePlus 7T Pro", "j43a9jd9")
 	except Exception as err:
 		sta_if.active(False)
 		print("Error:", err)
