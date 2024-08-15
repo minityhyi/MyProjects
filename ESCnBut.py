@@ -2,7 +2,7 @@ from machine import Pin, PWM, ADC
 from time import sleep
 
 # Configure the GPIO pin connected to the ESC signal wire
-esc_pin = Pin(15, Pin.OUT)  # Change to the GPIO pin you're using
+esc_pin = Pin(7, Pin.OUT)  # Change to the GPIO pin you're using
 esc_pwm = PWM(esc_pin)
 esc_pwm.freq(50)  # ESCs usually expect a 50 Hz PWM signal
 butUp = Pin(12, Pin.IN, Pin.PULL_DOWN)
@@ -59,7 +59,7 @@ def main():
             x= 0.65
         if x <= 0.35:
             x= 0.35
-        set_throttle(x)
+        set_throttle(1)
             
 
 if __name__ == '__main__':
