@@ -59,7 +59,7 @@ def main():
             x= 0.65
         if x <= 0.35:
             x= 0.35
-        set_throttle(1)
+        
             
 
 if __name__ == '__main__':
