@@ -23,5 +23,5 @@ while True :
     #print("hej")
     print(f"leftVal: {leftVal}, rightVal: {rightVal}, speedUpVal: {speedUpVal} speedDownVal: {speedDownVal} stopval: {stopVal}")
     uart.write(message)
-    sleep(0.5)
-
+    sleep(0.35 )
+   
