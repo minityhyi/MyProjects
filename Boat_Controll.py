@@ -29,14 +29,15 @@ while True:
                 step.turnL()
             elif propelPos >= 7:
                 propelPos = 7
-            
-            
+                uart.write("l")
+               
         elif li[1] == "1":
             propelPos -= 1
             if propelPos >= -7:
                 step.turnR()
             elif propelPos <= -7:
                 propelPos = -7
+                uart.write("r")
         
         elif li[2] == "1":
             thruster.speed_up()
@@ -47,3 +48,6 @@ while True:
         elif li[4] == "1":
             thruster.stop()
         print(propelPos)
+        
+        if propelPos == 1:
+            uart.write("m")
