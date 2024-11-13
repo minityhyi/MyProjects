@@ -1,1 +1,2 @@
-print("hej")
+def print_hej():
+  print("hej")
